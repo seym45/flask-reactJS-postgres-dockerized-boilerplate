@@ -1,1 +1,6 @@
-# Boilerplate for Dockerized Flask+React+Postgres
+# Boilerplate for Dockerized Flask+ReactJS+Postgres
+
+
+```bash
+    docker-compose -f docker-compose.yml up  --build
+```
