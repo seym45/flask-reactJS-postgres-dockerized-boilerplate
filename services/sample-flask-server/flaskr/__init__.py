@@ -18,13 +18,17 @@ def create_app(env_name='development'):
     # apply the blueprints to the app
     from flaskr.controllers.UserController import user_api as user_blueprint
     app.register_blueprint(user_blueprint, url_prefix='/api/v1/users')
-    
-    # TODO: Make error handelr more specific
+
+    # TODO: Make error handelr more specific, and mode to controller
     from werkzeug.exceptions import HTTPException
     from flask import jsonify
+    from marshmallow.exceptions import ValidationError
+
     @app.errorhandler(Exception)
     def handle_error(e):
         code = 500
+        if isinstance(e, ValidationError):
+            code = 400
         if isinstance(e, HTTPException):
             code = e.code
         return jsonify(error=str(e)), code

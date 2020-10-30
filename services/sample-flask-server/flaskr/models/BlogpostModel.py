@@ -2,6 +2,7 @@ from flaskr.db import db
 import datetime
 from marshmallow import fields, Schema
 
+
 class BlogpostModel(db.Model):
   """
   Blogpost Model
@@ -36,17 +37,18 @@ class BlogpostModel(db.Model):
   def delete(self):
     db.session.delete(self)
     db.session.commit()
-  
+
   @staticmethod
   def get_all_blogposts():
     return BlogpostModel.query.all()
-  
+
   @staticmethod
   def get_one_blogpost(id):
     return BlogpostModel.query.get(id)
 
   def __repr__(self):
     return '<id {}>'.format(self.id)
+
 
 class BlogpostSchema(Schema):
   """

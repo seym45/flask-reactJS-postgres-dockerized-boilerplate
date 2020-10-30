@@ -1,4 +1,3 @@
-#src/shared/Authentication
 import jwt
 import os
 import datetime
@@ -11,6 +10,10 @@ class Auth():
   """
   Auth Class
   """
+  
+  algorithm = "HS256"
+  verify = True
+
   @staticmethod
   def generate_token(user_id):
     """
@@ -25,7 +28,7 @@ class Auth():
       return jwt.encode(
         payload,
         os.getenv('JWT_SECRET_KEY'),
-        'HS256'
+        Auth.algorithm
       ).decode("utf-8")
     except Exception as e:
       return Response(
@@ -40,8 +43,13 @@ class Auth():
     Decode token method
     """
     re = {'data': {}, 'error': {}}
+    algorithm = "HS256"
     try:
-      payload = jwt.decode(token, os.getenv('JWT_SECRET_KEY'))
+      payload = jwt.decode(
+        token,
+        os.getenv('JWT_SECRET_KEY'),
+        algorithms=[Auth.algorithm]
+      )
       re['data'] = {'user_id': payload['sub']}
       return re
     except jwt.ExpiredSignatureError as e1:
