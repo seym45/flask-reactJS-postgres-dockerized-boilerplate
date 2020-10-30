@@ -1,27 +1,39 @@
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
+from dotenv import load_dotenv, find_dotenv
 
-class Config(object):
+load_dotenv(find_dotenv())
+
+class Development(object):
+    """
+    Development environment configuration
+    """
+    DEBUG = True
+    TESTING = False
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+
+class Production(object):
+    """
+    Production environment configurations
+    """
     DEBUG = False
     TESTING = False
-    CSRF_ENABLED = True
-    SECRET_KEY = os.environ['SECRET_KEY']
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 
-
-class ProductionConfig(Config):
-    DEBUG = False
-
-
-class StagingConfig(Config):
-    DEVELOPMENT = True
-    DEBUG = True
-
-
-class DevelopmentConfig(Config):
-    DEVELOPMENT = True
-    DEBUG = True
-
-
-class TestingConfig(Config):
+class Testing(object):
+    """
+    Development environment configuration
+    """
     TESTING = True
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_TEST_URL')
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
+
+app_config = {
+    'development': Development,
+    'production': Production,
+    'testing': Testing
+}
