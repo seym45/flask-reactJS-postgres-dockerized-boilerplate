@@ -42,6 +42,6 @@ def create_app(env_name='development'):
         """
         example endpoint
         """
-        return 'Application is Running!!'
+        return 'Alive!'
 
     return app
