@@ -4,7 +4,6 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 
-
 class Development(object):
     """
     Development environment configuration
