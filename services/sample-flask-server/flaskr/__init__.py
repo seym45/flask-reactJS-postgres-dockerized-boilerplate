@@ -15,6 +15,8 @@ def create_app(env_name='development'):
     bcrypt.init_app(app)
     db.init_app(app)
 
+    from flask_cors import CORS  # The typical way to import flask-cors
+    CORS(app)
     # apply the blueprints to the app
     from flaskr.controllers.UserController import user_api as user_blueprint
     app.register_blueprint(user_blueprint, url_prefix='/api/v1/users')
